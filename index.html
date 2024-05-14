@@ -21,10 +21,20 @@
   </body>
   <script type="text/babel">
     const Main = () => {
+      let name = "nay zaw aung";
+      let age = 26;
+      let classname = "test-class";
+      let clickHandler = (e) => {
+        alert("click handler");
+        console.log(e);
+      };
       return (
-        <div className="test-test">
+        <div className={classname}>
           Hello this is main container
-          <p>test</p>
+          <p>{name}</p>
+          <p>{age}</p>
+          <p>{new Date().toDateString()}</p>
+          <button onClick={clickHandler}>click me</button>
         </div>
       );
     };
