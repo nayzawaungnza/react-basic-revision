@@ -35,13 +35,14 @@ function App() {
       <h1>Hello {name}</h1>
       <button onClick={changeName}>change name</button>
       <ul>
-        {posts.map((post) => (
+        {!!posts.length && posts.map((post) => (
           <li key={post.id}>
             {post.title}
             <button onClick={() => deletePost(post.id)}>delete</button>
             {/* add parameter for by passing function reference //importent */}
           </li>
         ))}
+        {!posts.length && <p>No posts available.</p>}
       </ul>
     </div>
   );
