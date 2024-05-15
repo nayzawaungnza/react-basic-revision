@@ -1,16 +1,50 @@
-import React, { useState } from "react";
+import "./App.css";
+import image from "./assets/image.png";
+import { useState } from "react";
 
-export default function App() {
-  let [count, setCount] = useState(0);
-  let increaseCount = () => {
-    //setCount(count + 1);//do not make that code
-    setCount((prevState) => prevState + 1);
-    console.log(setCount);
+function App() {
+  //let name = "Nay Zaw Aung";
+  let [name, setName] = useState("Nay Zaw Aung"); //useState return array by [getter, setter]
+
+  let [posts, setPosts] = useState([
+    {
+      id: 1,
+      title: "first post",
+    },
+    {
+      id: 2,
+      title: "second post",
+    },
+    {
+      id: 3,
+      title: "third post",
+    },
+  ]);
+  let changeName = () => {
+    setName("Aung Aung");
+    console.log(name);
   };
+
+  let deletePost = (id) => {
+    setPosts((prevState)=>prevState.filter((post=> post.id !== id)))
+    console.log(`post delete - ${id}`);
+  };
+
   return (
-    <div>
-      <h1>Counter - {count}</h1>
-      <button onClick={increaseCount}>increment</button>
+    <div className="app">
+      <h1>Hello {name}</h1>
+      <button onClick={changeName}>change name</button>
+      <ul>
+        {posts.map((post) => (
+          <li key={post.id}>
+            {post.title}
+            <button onClick={() => deletePost(post.id)}>delete</button>
+            {/* add parameter for by passing function reference //importent */}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+export default App;
