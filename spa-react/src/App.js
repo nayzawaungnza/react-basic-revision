@@ -1,10 +1,12 @@
 import "./App.css";
 import image from "./assets/image.png";
+import { useState } from "react";
 
 function App() {
-  let name = "Nay Zaw Aung";
+  //let name = "Nay Zaw Aung";
+  let [name, setName] = useState("Nay Zaw Aung"); //useState return array by [getter, setter]
   let changeName = () => {
-    name = "Aung Aung";
+    setName("Aung Aung");
     console.log(name);
   };
   return (
