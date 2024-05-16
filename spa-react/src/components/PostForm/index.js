@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./index.css";
-export default function PostForm() {
+export default function PostForm({ addPost }) {
   let [title, setTitle] = useState("");
   //   let onChangeHandler = (e) => {
   //     setTitle(e.target.value);
@@ -10,8 +10,17 @@ export default function PostForm() {
     setTitle("");
     console.log("updated success");
   };
+  let createPost = (e) => {
+    e.preventDefault();
+    let post = {
+      id: Math.floor(Math.random() * 10000),
+      title: title,
+    };
+    resetForm();
+    addPost(post);
+  };
   return (
-    <form className="post-form">
+    <form className="post-form" onSubmit={createPost}>
       <h1>Create Post</h1>
       <div className="form-control">
         <label>Title</label>
@@ -27,7 +36,7 @@ export default function PostForm() {
         <button type="button" onClick={resetForm}>
           reset
         </button>
-        <button>Create Post</button>
+        <button type="submit">Create Post</button>
       </div>
     </form>
   );

@@ -21,7 +21,10 @@ function App() {
       title: "third post",
     },
   ]);
-
+  let addPost = (post) => {
+    setPosts((prevState) => [...prevState, post]);
+    setshowModal(false);
+  };
   return (
     <>
       <Navbar setshowModal={setshowModal} />
@@ -34,7 +37,7 @@ function App() {
       </Modal> */}
       {showModal && (
         <Modal setshowModal={setshowModal} danger>
-          <PostForm />
+          <PostForm addPost={addPost} />
         </Modal>
       )}
     </>
