@@ -11,14 +11,17 @@ function App() {
     {
       id: 1,
       title: "first post",
+      status: "dropped",
     },
     {
       id: 2,
       title: "second post",
+      status: "ongoing",
     },
     {
       id: 3,
       title: "third post",
+      status: "upcomming",
     },
   ]);
   let addPost = (post) => {
