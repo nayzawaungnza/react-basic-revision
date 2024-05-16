@@ -2,7 +2,7 @@ import React from "react";
 import "./index.css";
 export default function Navbar({ setshowModal }) {
   return (
-    <nav>
+    <nav className="navbar">
       <div className="container">
         <h1>Logo</h1>
         <ul>
