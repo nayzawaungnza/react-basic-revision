@@ -1,0 +1,23 @@
+{
+    "trips":[
+        {
+            "id":1,
+            "name":"Ngwe Saung - Chaung Tha",
+            "price":100000
+
+        },
+        {
+            "id":2,
+            "name":"Popa - Bagan - Magway",
+            "price":150000
+
+        },
+        {
+            "id":3,
+            "name":"Mandalay - Sagaing - Momwya",
+            "price":90000
+
+        }
+
+    ]
+}
