@@ -1,6 +1,6 @@
 import React from "react";
 import "./index.css";
-import styles from "./single_post_module.css";
+import styles from "./single_post.module.css";
 
 export default function PostList({ posts }) {
   return (

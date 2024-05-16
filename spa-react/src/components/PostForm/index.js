@@ -1,20 +1,17 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import "./index.css";
 export default function PostForm({ addPost }) {
-  let [title, setTitle] = useState("");
-  //   let onChangeHandler = (e) => {
-  //     setTitle(e.target.value);
-  //     console.log(e.target.value);
-  //   };
+  let title = useRef();
   let resetForm = () => {
-    setTitle("");
+    title.current.value = "";
     console.log("updated success");
   };
   let createPost = (e) => {
     e.preventDefault();
+    console.log(title.current.value);
     let post = {
       id: Math.floor(Math.random() * 10000),
-      title: title,
+      title: title.current.value,
     };
     resetForm();
     addPost(post);
@@ -25,12 +22,7 @@ export default function PostForm({ addPost }) {
       <div className="form-control">
         <label>Title</label>
         {/* <input type="text" onChange={onChangeHandler} /> //same under method */}
-        <input
-          type="text"
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <p>{title}</p>
+        <input type="text" ref={title} />
       </div>
       <div className="form-control">
         <button type="button" onClick={resetForm}>
