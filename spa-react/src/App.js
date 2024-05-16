@@ -32,7 +32,7 @@ function App() {
         </p>
       </Modal> */}
       {showModal && (
-        <Modal>
+        <Modal danger>
           <h1>Term and Condition</h1>
           <p>loerm</p>
           <button onClick={() => setshowModal(false)}>close</button>
