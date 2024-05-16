@@ -1,0 +1,18 @@
+.post-form .form-control{
+    margin: 20px;
+}
+.post-form label{
+    margin-right: 20px;
+}
+.post-form input{
+    width: 80%;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+.post-form button{
+    border: 1px solid gray;
+    background-color: indianred;
+    color: antiquewhite;
+    border-radius: 5px;
+    padding: 5px;
+}

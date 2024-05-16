@@ -4,6 +4,7 @@ import { useState } from "react";
 import Navbar from "./components/Navbar";
 import PostList from "./components/PostList";
 import Modal from "./components/Modal";
+import PostForm from "./components/PostForm";
 function App() {
   let [showModal, setshowModal] = useState(false);
   let [posts, setPosts] = useState([
@@ -32,10 +33,8 @@ function App() {
         </p>
       </Modal> */}
       {showModal && (
-        <Modal danger>
-          <h1>Term and Condition</h1>
-          <p>loerm</p>
-          <button onClick={() => setshowModal(false)}>close</button>
+        <Modal setshowModal={setshowModal} danger>
+          <PostForm />
         </Modal>
       )}
     </>
