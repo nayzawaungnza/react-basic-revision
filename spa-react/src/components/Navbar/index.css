@@ -1,14 +1,8 @@
 /* nav component */
 nav.navbar {
-    background-color: yellow;
+    background-color: gray;
     padding: 10px;
-}
-.navbar .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    max-width: 1200px;
-    margin: auto;
+    color: whitesmoke;
 }
 
 .navbar .container ul {

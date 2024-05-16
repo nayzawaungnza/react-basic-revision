@@ -12,7 +12,7 @@
 .modal-component .modal {
     background-color: white;
     max-width: 480px;
-    margin: 400px auto;
+    margin: 200px auto;
     padding: 30px;
     border-radius: 10px;
     text-align: center;
@@ -20,4 +20,10 @@
 
 .modal-component .modal h1 {
     margin: 20px;
+}
+.modal-component .border-red{
+    border: 3px solid red;
+}
+.modal-component .border-blue{
+    border: 3px solid blue;
 }
