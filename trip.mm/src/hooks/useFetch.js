@@ -1,13 +1,16 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
-function useFetch(url) {
+function useFetch(url, _option) {
   let [data, setData] = useState(null);
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState(null);
   let abortController = new AbortController();
   let signal = abortController.signal;
+  //let [option, setOption] = useState(_option);
+  let option = useRef(_option).current;
 
   useEffect(() => {
+    console.log(option);
     setLoading(true);
     fetch(url, {
       signal,
@@ -31,7 +34,19 @@ function useFetch(url) {
       console.log("clean up function");
       abortController.abort();
     };
-  }, [url]);
+  }, [url, option]);
   return { data: data, loading: loading, error: error };
 }
 export default useFetch;
+//useFetch, not add (reference data type) to dependency , only allow premitive data type
+//premitive
+// - String
+//     - Number
+//     - Boolean
+//     -
+
+//     referenct
+//     - Array
+//     - Object
+//     (case to infinite loop)
+//use (useRef, or , useState ) to prevent
