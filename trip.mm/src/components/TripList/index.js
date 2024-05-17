@@ -1,39 +1,41 @@
-import React, { useCallback, useEffect, useState } from "react";
-
+import React, { useState } from "react";
+import "./index.css";
+import useFetch from "../../hooks/useFetch";
 export default function TripList() {
-  let [trips, setTrips] = useState([]);
   let [url, setUrl] = useState("http://localhost:3001/trips");
-  let fetchTrips = useCallback(() => {
-    fetch(url)
-      .then((response) => response.json())
-      .then((data) => {
-        setTrips(data);
-      });
-  }, [url]);
-
-  useEffect(() => {
-    fetchTrips();
-  }, [fetchTrips]);
-
+  let { data: trips, loading, error } = useFetch(url);
   return (
-    <div>
-      <h1>Trip List</h1>
-      <button onClick={() => setUrl("http://localhost:3001/trips")}>All</button>
-      <button
-        onClick={() => setUrl("http://localhost:3001/trips?location=Myanmar")}
-      >
-        Filter by location
-      </button>
-      <ul>
-        {trips &&
-          trips.map((trip) => (
-            <li key={trip.id}>
-              <h3>{trip.name}</h3>
-              <span>price : {trip.price}</span>
-            </li>
-          ))}
-        {!trips && <p>No Trips available.</p>}
-      </ul>
+    <div className="container">
+      {error && <p>{error}</p>}
+
+      {!error && (
+        <div className="flex-container">
+          <h1>Trip List</h1>
+          {loading && <p>Loading Trip...</p>}
+          <div>
+            <button onClick={() => setUrl("http://localhost:3001/trips")}>
+              All
+            </button>
+            <button
+              onClick={() =>
+                setUrl("http://localhost:3001/trips?location=Myanmar")
+              }
+            >
+              Filter by location
+            </button>
+          </div>
+          <ul className="trip-list">
+            {trips &&
+              trips.map((trip) => (
+                <li key={trip.id} className="trip">
+                  <h3>{trip.name}</h3>
+                  <span>price : {trip.price}</span>
+                </li>
+              ))}
+            {!trips && <p>No Trips available.</p>}
+          </ul>
+        </div>
+      )}
     </div>
   );
 }
