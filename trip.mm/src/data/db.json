@@ -3,19 +3,29 @@
         {
             "id":1,
             "name":"Ngwe Saung - Chaung Tha",
-            "price":100000
+            "price":100000,
+            "location":"Myanmar"
 
         },
         {
             "id":2,
             "name":"Popa - Bagan - Magway",
-            "price":150000
+            "price":150000,
+            "location":"Myanmar"
 
         },
         {
             "id":3,
             "name":"Mandalay - Sagaing - Momwya",
-            "price":90000
+            "price":90000,
+            "location":"Myanmar"
+
+        },
+        {
+            "id":4,
+            "name":"Bankkok",
+            "price":90000,
+            "location":"Thailand"
 
         }
 
