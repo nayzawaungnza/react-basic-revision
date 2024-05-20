@@ -59,6 +59,26 @@ function App() {
       });
     });
   };
+
+  const remainingTodo = (todos) => {
+    return todos.filter((todo) => !todo.completed).length;
+  };
+  const remainingCount = remainingTodo(todos);
+
+  let checkAll = () => {
+    //server
+    todos.forEach((todo) => {
+      todo.completed = true;
+      updateTodo(todo);
+    });
+    //client
+    setTodos((prevState) => {
+      return prevState.map((todo) => {
+        return { ...todo, completed: true };
+      });
+    });
+  };
+
   return (
     <div className="todo-app-container">
       <div className="todo-app">
@@ -71,7 +91,10 @@ function App() {
           updateTodo={updateTodo}
         />
 
-        <CheckAllAndRemaining />
+        <CheckAllAndRemaining
+          checkAll={checkAll}
+          remainingCount={remainingCount}
+        />
 
         <div className="other-buttons-container">
           <TodoFilters />
