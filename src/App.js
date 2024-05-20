@@ -5,15 +5,24 @@ import TodoList from "./components/TodoList";
 import CheckAllAndRemaining from "./components/CheckAllAndRemaining";
 import TodoFilters from "./components/TodoFilters";
 import ClearCompletedBtn from "./components/ClearCompletedBtn";
+import { useEffect, useState } from "react";
 
 function App() {
+  let [todos, setTodos] = useState([]);
+  useEffect(() => {
+    fetch("http://localhost:3001/todos")
+      .then((response) => response.json())
+      .then((data) => {
+        setTodos(data);
+      });
+  }, []);
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
         <TodoForm />
 
-        <TodoList />
+        <TodoList todos={todos} />
 
         <CheckAllAndRemaining />
 
