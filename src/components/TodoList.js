@@ -1,13 +1,18 @@
 import React from "react";
 import Todo from "./Todo";
-export default function TodoList({ todos, deleteTodo }) {
+export default function TodoList({ todos, deleteTodo, updateTodo }) {
   //received by destructuring
   return (
     <>
       <ul className="todo-list">
         {todos &&
           todos.map((todo) => (
-            <Todo todo={todo} key={todo.id} deleteTodo={deleteTodo} />
+            <Todo
+              todo={todo}
+              key={todo.id}
+              deleteTodo={deleteTodo}
+              updateTodo={updateTodo}
+            />
           ))}
       </ul>
     </>
