@@ -13,10 +13,23 @@ export default function Todo({ todo, deleteTodo, updateTodo }) {
     updateTodo(newTodo);
     setisEdit(false);
   };
+  let checkHandler = () => {
+    console.log(!todo.completed);
+    let newTodo = {
+      id: todo.id,
+      title: title,
+      completed: !todo.completed,
+    };
+    updateTodo(newTodo);
+  };
   return (
     <li className="todo-item-container">
       <div className="todo-item">
-        <input type="checkbox" />
+        <input
+          type="checkbox"
+          checked={todo.completed}
+          onChange={checkHandler}
+        />
         {!isEdit && (
           <span
             onDoubleClick={() => setisEdit(true)}

@@ -3,11 +3,16 @@
     {
       "id": "1",
       "title": "My first todo",
-      "completed": false
+      "completed": true
     },
     {
       "id": "2",
       "title": "My second todo",
+      "completed": true
+    },
+    {
+      "id": 2386,
+      "title": "another task",
       "completed": false
     }
   ]
