@@ -1,33 +1,28 @@
 {
   "todos": [
     {
-      "id": 1,
+      "id": "1",
       "title": "My first todo",
       "completed": false
     },
     {
-      "id": 2,
+      "id": "2",
       "title": "My second todo",
       "completed": true
     },
     {
-      "id": 3,
+      "id": "3",
       "title": "My third todo",
       "completed": false
     },
     {
-      "id": 4095,
+      "id": "4095",
       "title": "go to Work",
       "completed": false
     },
     {
-      "id": 5273,
+      "id": "5273",
       "title": "back home",
-      "completed": false
-    },
-    {
-      "id": 2125,
-      "title": "work done",
       "completed": false
     }
   ]

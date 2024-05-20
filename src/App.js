@@ -28,13 +28,25 @@ function App() {
     //client side
     setTodos((prevState) => [...prevState, todo]);
   };
+  let deleteTodo = (todoID) => {
+    //server
+    fetch(`http://localhost:3001/todos/${todoID}`, {
+      method: "DELETE",
+    });
+    //client
+    setTodos((prevState) => {
+      return prevState.filter((todo) => {
+        return todo.id !== todoID;
+      });
+    });
+  };
   return (
     <div className="todo-app-container">
       <div className="todo-app">
         <h2>Todo App</h2>
         <TodoForm addTodo={addTodo} />
 
-        <TodoList todos={todos} />
+        <TodoList todos={todos} deleteTodo={deleteTodo} />
 
         <CheckAllAndRemaining />
 
