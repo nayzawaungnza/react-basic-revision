@@ -1,14 +1,9 @@
 {
   "todos": [
     {
-      "id": "1",
-      "title": "My first todo",
-      "completed": true
-    },
-    {
       "id": "2",
       "title": "My second todo",
-      "completed": true
+      "completed": false
     },
     {
       "id": 2386,
