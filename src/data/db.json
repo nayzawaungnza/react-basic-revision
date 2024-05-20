@@ -3,32 +3,12 @@
     {
       "id": "1",
       "title": "My first todo",
-      "completed": true
+      "completed": false
     },
     {
       "id": "2",
       "title": "My second todo",
-      "completed": true
-    },
-    {
-      "id": "3",
-      "title": "My third todo update",
-      "completed": true
-    },
-    {
-      "id": "4095",
-      "title": "go to Work",
-      "completed": true
-    },
-    {
-      "id": "6459",
-      "title": "Go back Home",
-      "completed": true
-    },
-    {
-      "id": "4682",
-      "title": "This is create Todo",
-      "completed": true
+      "completed": false
     }
   ]
 }

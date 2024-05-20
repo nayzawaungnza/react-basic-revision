@@ -14,6 +14,7 @@ export default function TodoList({ todos, deleteTodo, updateTodo }) {
               updateTodo={updateTodo}
             />
           ))}
+        {!todos.length && <p>not have todo list.</p>}
       </ul>
     </>
   );
