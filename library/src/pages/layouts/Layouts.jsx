@@ -1,17 +1,15 @@
 import React from 'react'
 import { Outlet } from 'react-router-dom'
+import Navbar from '../components/Navbar'
 
 export default function Layouts() {
   return (
     <div>
-      <nav>
-        <ul>
-            <li><a href='/'>Home</a></li>
-            <li><a href='/create'>Create</a></li>
-            <li><a href='/search'>Search</a></li>
-        </ul>
-      </nav>
-      <Outlet/>
-      </div>
+            <Navbar />
+            {/* dynamic router changes content */}
+            <div className=' max-w-6xl mx-auto p-3'>
+                <Outlet />
+            </div>
+        </div>
   )
 }
