@@ -1,41 +1,61 @@
 import { useEffect, useRef, useState } from "react";
 
-function useFetch(url, _option) {
+function useFetch(url, method = "GET") {
+  let [postData, setPostData] = useState(null);
   let [data, setData] = useState(null);
   let [loading, setLoading] = useState(false);
   let [error, setError] = useState(null);
-  let abortController = new AbortController();
-  let signal = abortController.signal;
+
   //let [option, setOption] = useState(_option);
-  let option = useRef(_option).current;
+  //let option = useRef(_option).current;
 
   useEffect(() => {
-    console.log(option);
-    setLoading(true);
-    fetch(url, {
+    let abortController = new AbortController();
+    let signal = abortController.signal;
+    let options = {
       signal,
-    })
-      .then((response) => {
-        if (!response.ok) {
-          throw Error("something went wrong");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setData(data);
-        setError(null);
-        setLoading(false);
-      })
-      .catch((e) => {
-        setError(e.message);
-      });
+      method,
+    };
+
+    setLoading(true);
+    let fetchData = () => {
+      fetch(url, options)
+        .then((response) => {
+          if (!response.ok) {
+            throw Error("something went wrong");
+          }
+          return response.json();
+        })
+        .then((data) => {
+          setData(data);
+          setError(null);
+          setLoading(false);
+        })
+        .catch((e) => {
+          setError(e.message);
+        });
+    };
+
+    if (method === "POST" && postData) {
+      options = {
+        ...options,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(postData),
+      };
+      fetchData();
+    }
+    if (method === "GET") {
+      fetchData();
+    }
+
     //clean up function
     return () => {
-      console.log("clean up function");
       abortController.abort();
     };
-  }, [url, option]);
-  return { data: data, loading: loading, error: error };
+  }, [url, postData]);
+  return { setPostData, data: data, loading: loading, error: error };
 }
 export default useFetch;
 //useFetch, not add (reference data type) to dependency , only allow premitive data type
