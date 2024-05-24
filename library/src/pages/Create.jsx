@@ -4,6 +4,12 @@ export default function Create() {
   let [title, setTitle] = useState();
   let [description, setDescription] = useState();
   let [newCategory, setNewCategory] = useState([]);
+  let [categories, setCategories] = useState([]);
+  let addCategory = (e) => {
+    e.preventDefault();
+    setCategories((prev) => [newCategory, ...prev]);
+    setNewCategory("");
+  };
   return (
     <>
       <form className="w-full max-w-lg mx-auto">
@@ -13,7 +19,7 @@ export default function Create() {
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               htmlFor="grid-title"
             >
-              Book Title {title}
+              Book Title
             </label>
             <input
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -31,7 +37,7 @@ export default function Create() {
               className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
               htmlFor="grid-des"
             >
-              Book Description {description}
+              Book Description
             </label>
             <textarea
               className="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
@@ -45,7 +51,7 @@ export default function Create() {
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
             <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
-              Book Categories {newCategory}
+              Book Categories
             </label>
             <div className="flex items-center space-x-2">
               <input
@@ -55,7 +61,11 @@ export default function Create() {
                 type="text"
                 placeholder="Enter Book Category"
               />
-              <button className="bg-primary p-2 rounded mb-3">
+              <button
+                onClick={addCategory}
+                className="bg-primary p-2 rounded mb-3"
+                type="button"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -71,6 +81,17 @@ export default function Create() {
                   />
                 </svg>
               </button>
+            </div>
+            <div className=" flex flex-wrap justify-start ">
+              {categories.map((genre) => (
+                <span
+                  className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500"
+                  key={genre}
+                >
+                  {" "}
+                  {genre}
+                </span>
+              ))}
             </div>
           </div>
         </div>
