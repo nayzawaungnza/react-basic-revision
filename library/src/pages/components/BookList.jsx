@@ -10,7 +10,8 @@ export default function BookList() {
     let {data: books, loading, error}=useFetch(`http://localhost:3001/books${search ? `?q=${search}` :''}`);
     if (error) {
         return <p>{error}</p>;
-    }
+  }
+  console.log(books);
   return (
     <>
     {loading && <p> Loading ...</p>}
@@ -35,6 +36,8 @@ export default function BookList() {
           </div>
         ))}
       </div>}
+     
+     
     </>
   )
 }
