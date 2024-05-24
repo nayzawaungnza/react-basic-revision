@@ -11,7 +11,6 @@ export default function BookList() {
     if (error) {
         return <p>{error}</p>;
   }
-  console.log(books);
   return (
     <>
     {loading && <p> Loading ...</p>}
@@ -36,7 +35,7 @@ export default function BookList() {
           </div>
         ))}
       </div>}
-     
+      {books && !books.length && <p className='text-center text-xl text-gray-500'>No Search Results Found</p>}
      
     </>
   )
