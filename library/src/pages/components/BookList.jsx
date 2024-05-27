@@ -8,6 +8,7 @@ import {
   deleteDoc,
   doc,
   getDocs,
+  onSnapshot,
   orderBy,
   query,
 } from "firebase/firestore";
@@ -26,7 +27,24 @@ export default function BookList() {
     setLoading(true);
     let ref = collection(db, "books");
     let order = query(ref, orderBy("date", "desc"));
-    getDocs(order).then((docs) => {
+    // getDocs(order).then((docs) => {
+    //   if (docs.empty) {
+    //     setError("No Fetching Data");
+    //     setLoading(false);
+    //   } else {
+    //     let books = [];
+    //     docs.forEach((doc) => {
+    //       let book = { id: doc.id, ...doc.data() };
+    //       books.push(book);
+    //     });
+    //     setBooks(books);
+    //     setLoading(false);
+    //     setError("");
+    //   }
+    // });
+
+    //real time firebase
+    onSnapshot(order, (docs) => {
       if (docs.empty) {
         setError("No Fetching Data");
         setLoading(false);
@@ -48,7 +66,8 @@ export default function BookList() {
     //delete firestore doc
     let ref = doc(db, "books", id);
     await deleteDoc(ref);
-    setBooks((prev) => prev.filter((book) => book.id !== id));
+    //remove setBooks for frontend because realtime firebase using onSnapShot 
+    //setBooks((prev) => prev.filter((book) => book.id !== id));
   };
   if (error) {
     return <p>{error}</p>;
