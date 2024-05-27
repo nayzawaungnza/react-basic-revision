@@ -8,6 +8,7 @@ import {
   doc,
   getDoc,
   serverTimestamp,
+  updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -52,7 +53,7 @@ export default function Create() {
     setCategories((prev) => [newCategory, ...prev]);
     setNewCategory("");
   };
-  let addBook = (e) => {
+  let submitForm = async (e) => {
     e.preventDefault();
     let book = {
       title: title,
@@ -61,8 +62,13 @@ export default function Create() {
       date: serverTimestamp(),
     };
     //firebase
-    let ref = collection(db, "books");
-    addDoc(ref, book);
+    if (isEdit) {
+      let ref = doc(db, "books", id);
+      await updateDoc(ref, book);
+    } else {
+      let ref = collection(db, "books");
+      addDoc(ref, book);
+    }
 
     navigate("/");
   };
@@ -70,7 +76,7 @@ export default function Create() {
   let { isDark } = useTheme();
   return (
     <div className="h-screen">
-      <form className="w-full max-w-lg mx-auto" onSubmit={addBook}>
+      <form className="w-full max-w-lg mx-auto" onSubmit={submitForm}>
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
             <label
