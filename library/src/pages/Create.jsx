@@ -1,17 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
+import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { db } from "../firebase";
 
 export default function Create() {
   let [title, setTitle] = useState();
   let [description, setDescription] = useState();
   let [newCategory, setNewCategory] = useState([]);
   let [categories, setCategories] = useState([]);
-  let { setPostData, data: book } = useFetch(
-    "http://localhost:3001/books/",
-    "POST"
-  );
+
+  let navigate = useNavigate();
+
   let addCategory = (e) => {
     e.preventDefault();
     if (newCategory && categories.includes(newCategory)) {
@@ -28,15 +29,15 @@ export default function Create() {
       title: title,
       description: description,
       categories: categories,
+      date:serverTimestamp()
     };
-    setPostData(book);
+    //firebase
+    let ref = collection(db, "books");
+    addDoc(ref, book);
+
+    navigate("/");
   };
-  let navigate = useNavigate();
-  useEffect(() => {
-    if (book) {
-      navigate("/");
-    }
-  }, [book, navigate]);
+
   let { isDark } = useTheme();
   return (
     <div className="h-screen">
