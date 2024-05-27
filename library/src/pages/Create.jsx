@@ -25,11 +25,10 @@ export default function Create() {
   let addBook = (e) => {
     e.preventDefault();
     let book = {
-      id: Math.floor(Math.random() * 10000),
       title: title,
       description: description,
       categories: categories,
-      date:serverTimestamp()
+      date: serverTimestamp(),
     };
     //firebase
     let ref = collection(db, "books");

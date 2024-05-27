@@ -3,7 +3,15 @@ import bookimage from "../../assets/surja-sen-das-raj.jpg";
 import { Link, useLocation } from "react-router-dom";
 import useTheme from "../../hooks/useTheme";
 import { db } from "../../firebase";
-import { collection, getDocs, orderBy, query } from "firebase/firestore";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+} from "firebase/firestore";
+import deleteImg from "../../assets/delete.svg";
 
 export default function BookList() {
   let location = useLocation();
@@ -33,6 +41,14 @@ export default function BookList() {
       }
     });
   }, []);
+  let deleteBook = async (e, id) => {
+    e.preventDefault();
+    console.log("Book ID : ", id);
+    //delete firestore doc
+    let ref = doc(db, "books", id);
+    await deleteDoc(ref);
+    setBooks((prev) => prev.filter((book) => book.id !== id));
+  };
   if (error) {
     return <p>{error}</p>;
   }
@@ -58,17 +74,22 @@ export default function BookList() {
                   {book.description}
                 </p>
                 {/* genres */}
-                <div className="flex flex-wrap">
-                  {book.categories &&
-                    book.categories.map((genre) => (
-                      <span
-                        className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500"
-                        key={genre}
-                      >
-                        {" "}
-                        {genre}
-                      </span>
-                    ))}
+                <div className="flex flex-wrap justify-between items-center">
+                  <div>
+                    {book.categories &&
+                      book.categories.map((genre) => (
+                        <span
+                          className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500"
+                          key={genre}
+                        >
+                          {" "}
+                          {genre}
+                        </span>
+                      ))}
+                  </div>
+                  <div onClick={(e) => deleteBook(e, book.id)}>
+                    <img src={deleteImg} />
+                  </div>
                 </div>
                 <div>
                   <Link
