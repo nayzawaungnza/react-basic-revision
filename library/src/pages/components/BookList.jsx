@@ -14,14 +14,22 @@ export default function BookList() {
   let [books, setBooks] = useState([]);
 
   useEffect(function () {
+    setLoading(true);
     let ref = collection(db, "books");
     getDocs(ref).then((docs) => {
-      let books = [];
-      docs.forEach((doc) => {
-        let book = { id: doc.id, ...doc.data() };
-        books.push(book);
-      });
-      setBooks(books);
+      if (docs.empty) {
+        setError("No Fetching Data");
+        setLoading(false);
+      } else {
+        let books = [];
+        docs.forEach((doc) => {
+          let book = { id: doc.id, ...doc.data() };
+          books.push(book);
+        });
+        setBooks(books);
+        setLoading(false);
+        setError("");
+      }
     });
   }, []);
   if (error) {

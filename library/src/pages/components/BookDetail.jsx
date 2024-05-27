@@ -1,16 +1,15 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import useFetch from "../../hooks/useFetch";
 import bookimage from "../../assets/surja-sen-das-raj.jpg";
 import useTheme from "../../hooks/useTheme";
-
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../../firebase";
 export default function BookDetail() {
   let { id } = useParams();
-  let {
-    data: book,
-    loading,
-    error,
-  } = useFetch(`http://localhost:3001/books/${id}`);
+  let [error, setError] = useState("");
+  let [loading, setLoading] = useState(false);
+  let [book, setBook] = useState(null);
+
   let navigate = useNavigate();
   useEffect(() => {
     if (error) {
@@ -19,6 +18,21 @@ export default function BookDetail() {
       }, 3000);
     }
   }, [error, navigate]);
+  useEffect(() => {
+    setLoading(true);
+    let ref = doc(db, "books", id);
+    getDoc(ref).then((doc) => {
+      if (doc.exists()) {
+        let book = { id: doc.id, ...doc.data() };
+        setBook(book);
+        setLoading(false);
+        setError("");
+      } else {
+        setError("Not Book Found.");
+        setLoading(false);
+      }
+    });
+  }, [id]);
   let { isDark } = useTheme();
   return (
     <div className="h-screen">
