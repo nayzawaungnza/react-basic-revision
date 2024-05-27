@@ -1,17 +1,47 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../firebase";
 
 export default function Create() {
+  let { id } = useParams();
+
   let [title, setTitle] = useState();
   let [description, setDescription] = useState();
   let [newCategory, setNewCategory] = useState([]);
   let [categories, setCategories] = useState([]);
+  let [isEdit, setIsEdit] = useState(false);
 
   let navigate = useNavigate();
+  useEffect(() => {
+    if (id) {
+      setIsEdit(true);
+      //get book by it's id
+      let ref = doc(db, "books", id);
+      getDoc(ref).then((doc) => {
+        if (doc.exists()) {
+          //console.log(doc.data());
+          let { title, description, categories } = doc.data();
+          setTitle(title);
+          setDescription(description);
+          setCategories(categories);
+        }
+      });
+    } else {
+      setIsEdit(false);
+      setTitle("");
+      setDescription("");
+      setCategories([]);
+    }
+  }, []);
 
   let addCategory = (e) => {
     e.preventDefault();
@@ -147,7 +177,9 @@ export default function Create() {
             />
           </svg>
 
-          <span className="hidden md:block">Create Book</span>
+          <span className="hidden md:block">
+            {isEdit ? "Update" : "Create"} Book
+          </span>
         </button>
       </form>
     </div>

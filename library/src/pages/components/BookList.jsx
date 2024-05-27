@@ -12,6 +12,7 @@ import {
   query,
 } from "firebase/firestore";
 import deleteImg from "../../assets/delete.svg";
+import editImg from "../../assets/edit.svg";
 
 export default function BookList() {
   let location = useLocation();
@@ -87,8 +88,14 @@ export default function BookList() {
                         </span>
                       ))}
                   </div>
-                  <div onClick={(e) => deleteBook(e, book.id)}>
-                    <img src={deleteImg} />
+                  <div className="flex space-x-2 items-center">
+                    <Link to={`edit/${book.id}`}>
+                      <img src={editImg} />
+                    </Link>
+                    <img
+                      src={deleteImg}
+                      onClick={(e) => deleteBook(e, book.id)}
+                    />
                   </div>
                 </div>
                 <div>
