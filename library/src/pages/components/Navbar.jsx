@@ -8,15 +8,18 @@ export default function Navbar() {
   let [search, setSearch] = useState();
   let navigate = useNavigate();
 
-  let { theme, changeTheme } = useTheme();
-  console.log(theme);
+  let { theme, isDark, changeTheme } = useTheme();
 
   let handleSearch = (e) => {
     e.preventDefault();
     navigate("/?search=" + search);
   };
   return (
-    <nav className={`border border-b-1`}>
+    <nav
+      className={`border border-b-1 ${
+        isDark ? "bg-dbg border-primary" : "bg-white"
+      }`}
+    >
       <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
         <li className="flex items-center gap-3">
           <svg
@@ -50,7 +53,9 @@ export default function Navbar() {
         </li>
         <Link
           to="/"
-          className="flex items-center gap-3 md:-ml-32 cursor-pointer"
+          className={`flex items-center gap-3 md:-ml-32 cursor-pointer ${
+            isDark ? "text-white" : ""
+          }`}
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -103,14 +108,14 @@ export default function Navbar() {
             />
           </div>
           <div className="cursor-pointer">
-            {theme === "dark" && (
+            {isDark && (
               <img
                 src={lightIcon}
                 className="w-8"
                 onClick={() => changeTheme("light")}
               />
             )}
-            {theme === "light" && (
+            {!isDark && (
               <img
                 src={darkIcon}
                 className="w-8"

@@ -8,6 +8,8 @@ export default {
         primary: colors.indigo[600],
         secondary: colors.yellow,
         neutral: colors.gray,
+        dbg: "#05061B",
+        dcard: "#070E27",
       },
     },
   },

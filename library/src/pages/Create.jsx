@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import useFetch from "../hooks/useFetch";
 import { useNavigate } from "react-router-dom";
+import useTheme from "../hooks/useTheme";
 
 export default function Create() {
   let [title, setTitle] = useState();
@@ -14,8 +15,7 @@ export default function Create() {
   let addCategory = (e) => {
     e.preventDefault();
     if (newCategory && categories.includes(newCategory)) {
-      
-      setNewCategory('');
+      setNewCategory("");
       return;
     }
     setCategories((prev) => [newCategory, ...prev]);
@@ -37,13 +37,16 @@ export default function Create() {
       navigate("/");
     }
   }, [book, navigate]);
+  let { isDark } = useTheme();
   return (
-    <>
+    <div className="h-screen">
       <form className="w-full max-w-lg mx-auto" onSubmit={addBook}>
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${
+                isDark ? "text-white" : ""
+              }`}
               htmlFor="grid-title"
             >
               Book Title
@@ -61,7 +64,9 @@ export default function Create() {
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
             <label
-              className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+              className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${
+                isDark ? "text-white" : ""
+              }`}
               htmlFor="grid-des"
             >
               Book Description
@@ -77,7 +82,11 @@ export default function Create() {
         </div>
         <div className="flex flex-wrap -mx-3 mb-6">
           <div className="w-full px-3">
-            <label className="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2">
+            <label
+              className={`block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2 ${
+                isDark ? "text-white" : ""
+              }`}
+            >
               Book Categories
             </label>
             <div className="flex items-center space-x-2">
@@ -141,6 +150,6 @@ export default function Create() {
           <span className="hidden md:block">Create Book</span>
         </button>
       </form>
-    </>
+    </div>
   );
 }
