@@ -38,6 +38,7 @@ export default function Register() {
               id="email"
               type="email"
               placeholder="Email"
+              autoComplete="email"
               onChange={(e) => setEmail(e.target.value)}
               value={email}
             />
@@ -54,6 +55,7 @@ export default function Register() {
               id="currentPassword"
               type="password"
               placeholder="******************"
+              autoComplete="currentPassword"
               onChange={(e) => setPassword(e.target.value)}
               value={password}
             />
