@@ -4,9 +4,12 @@ import useTheme from "../../hooks/useTheme";
 import darkIcon from "../../assets/dark.svg";
 import lightIcon from "../../assets/light.svg";
 import useSignout from "../../hooks/useSignout";
+import { AuthContext } from "../../contexts/AuthContext.jsx";
 
 export default function Navbar() {
   let [search, setSearch] = useState();
+  let { user } = useContext(AuthContext);
+  console.log("user is :", user);
   let navigate = useNavigate();
 
   let { theme, isDark, changeTheme } = useTheme();
@@ -129,14 +132,32 @@ export default function Navbar() {
               />
             )}
           </div>
-          <div>
-            <button
-              type="button"
-              className="bg-red-500 text-white rounded-lg px-2 py-1 text-sm"
-              onClick={signoutUser}
-            >
-              Logout
-            </button>
+          <div className="space-x-2">
+            {!user && (
+              <>
+                <Link
+                  to={"/login"}
+                  className="border border-primary text-primary rounded-lg px-2 py-1 text-sm"
+                >
+                  Login
+                </Link>
+                <Link
+                  to={"/register"}
+                  className="bg-primary text-white rounded-lg px-2 py-1 text-sm"
+                >
+                  Register
+                </Link>
+              </>
+            )}
+            {!!user && (
+              <button
+                type="button"
+                className="bg-red-500 text-white rounded-lg px-2 py-1 text-sm"
+                onClick={signoutUser}
+              >
+                Logout
+              </button>
+            )}
           </div>
         </li>
       </ul>
