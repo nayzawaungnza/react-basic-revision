@@ -45,13 +45,13 @@ export default function Register() {
           <div className="mb-6">
             <label
               className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="current-password"
+              htmlFor="currentPassword"
             >
               Password
             </label>
             <input
               className="shadow appearance-none border  rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              id="current-password"
+              id="currentPassword"
               type="password"
               placeholder="******************"
               onChange={(e) => setPassword(e.target.value)}
@@ -77,7 +77,7 @@ export default function Register() {
                     cy="12"
                     r="10"
                     stroke="currentColor"
-                    stroke-width="4"
+                    strokeWidth="4"
                   ></circle>
                   <path
                     class="opacity-75"

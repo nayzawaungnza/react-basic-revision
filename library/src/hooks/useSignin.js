@@ -1,18 +1,14 @@
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import React, { useState } from "react";
 import { auth } from "../firebase";
 
-export default function useSignup() {
+export default function useSignin() {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const signup = async (email, password) => {
+  const signin = async (email, password) => {
     try {
       setLoading(true);
-      let response = await createUserWithEmailAndPassword(
-        auth,
-        email,
-        password
-      );
+      let response = await signInWithEmailAndPassword(auth, email, password);
       setError("");
       setLoading(false);
 
@@ -22,5 +18,5 @@ export default function useSignup() {
       setError(e.message);
     }
   };
-  return { error, loading, signup };
+  return { error, loading, signin };
 }
