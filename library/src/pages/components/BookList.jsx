@@ -1,73 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import bookimage from "../../assets/surja-sen-das-raj.jpg";
 import { Link, useLocation } from "react-router-dom";
 import useTheme from "../../hooks/useTheme";
-import { db } from "../../firebase";
-import {
-  collection,
-  deleteDoc,
-  doc,
-  getDocs,
-  onSnapshot,
-  orderBy,
-  query,
-} from "firebase/firestore";
+
 import deleteImg from "../../assets/delete.svg";
 import editImg from "../../assets/edit.svg";
+import useFirestore from "../../hooks/useFirestore";
 
 export default function BookList() {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
   let search = params.get("search");
-  let [error, setError] = useState("");
-  let [loading, setLoading] = useState(false);
-  let [books, setBooks] = useState([]);
 
-  useEffect(function () {
-    setLoading(true);
-    let ref = collection(db, "books");
-    let order = query(ref, orderBy("date", "desc"));
-    // getDocs(order).then((docs) => {
-    //   if (docs.empty) {
-    //     setError("No Fetching Data");
-    //     setLoading(false);
-    //   } else {
-    //     let books = [];
-    //     docs.forEach((doc) => {
-    //       let book = { id: doc.id, ...doc.data() };
-    //       books.push(book);
-    //     });
-    //     setBooks(books);
-    //     setLoading(false);
-    //     setError("");
-    //   }
-    // });
+  //get collection
+  let { getCollection, deleteDocument } = useFirestore();
+  let { error, loading, data: books } = getCollection("books");
 
-    //real time firebase
-    onSnapshot(order, (docs) => {
-      if (docs.empty) {
-        setError("No Fetching Data");
-        setLoading(false);
-      } else {
-        let books = [];
-        docs.forEach((doc) => {
-          let book = { id: doc.id, ...doc.data() };
-          books.push(book);
-        });
-        setBooks(books);
-        setLoading(false);
-        setError("");
-      }
-    });
-  }, []);
   let deleteBook = async (e, id) => {
     e.preventDefault();
     console.log("Book ID : ", id);
-    //delete firestore doc
-    let ref = doc(db, "books", id);
-    await deleteDoc(ref);
-    //remove setBooks for frontend because realtime firebase using onSnapShot 
-    //setBooks((prev) => prev.filter((book) => book.id !== id));
+    await deleteDocument("books", id);
   };
   if (error) {
     return <p>{error}</p>;

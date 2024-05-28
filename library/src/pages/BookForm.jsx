@@ -1,16 +1,9 @@
 import React, { useEffect, useState } from "react";
-import useFetch from "../hooks/useFetch";
 import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
-import {
-  addDoc,
-  collection,
-  doc,
-  getDoc,
-  serverTimestamp,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, getDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
+import useFirestore from "../hooks/useFirestore";
 
 export default function Create() {
   let { id } = useParams();
@@ -20,6 +13,8 @@ export default function Create() {
   let [newCategory, setNewCategory] = useState([]);
   let [categories, setCategories] = useState([]);
   let [isEdit, setIsEdit] = useState(false);
+
+  let { addCollection, updateDocument } = useFirestore();
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -59,15 +54,12 @@ export default function Create() {
       title: title,
       description: description,
       categories: categories,
-      date: serverTimestamp(),
     };
     //firebase
     if (isEdit) {
-      let ref = doc(db, "books", id);
-      await updateDoc(ref, book);
+      await updateDocument("books", id, book);
     } else {
-      let ref = collection(db, "books");
-      addDoc(ref, book);
+      await addCollection("books", book);
     }
 
     navigate("/");

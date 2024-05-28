@@ -1,14 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import bookimage from "../../assets/surja-sen-das-raj.jpg";
 import useTheme from "../../hooks/useTheme";
-import { doc, getDoc, onSnapshot } from "firebase/firestore";
-import { db } from "../../firebase";
+import useFirestore from "../../hooks/useFirestore";
 export default function BookDetail() {
   let { id } = useParams();
-  let [error, setError] = useState("");
-  let [loading, setLoading] = useState(false);
-  let [book, setBook] = useState(null);
+  let { getDocument } = useFirestore();
+  let { error, loading, data: book } = getDocument("books", id);
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -18,34 +16,7 @@ export default function BookDetail() {
       }, 3000);
     }
   }, [error, navigate]);
-  useEffect(() => {
-    setLoading(true);
-    let ref = doc(db, "books", id);
-    // getDoc(ref).then((doc) => {
-    //   if (doc.exists()) {
-    //     let book = { id: doc.id, ...doc.data() };
-    //     setBook(book);
-    //     setLoading(false);
-    //     setError("");
-    //   } else {
-    //     setError("Not Book Found.");
-    //     setLoading(false);
-    //   }
-    // });
 
-    //realtime firebas database
-    onSnapshot(ref, (doc) => {
-      if (doc.exists()) {
-        let book = { id: doc.id, ...doc.data() };
-        setBook(book);
-        setLoading(false);
-        setError("");
-      } else {
-        setError("Not Book Found.");
-        setLoading(false);
-      }
-    });
-  }, [id]);
   let { isDark } = useTheme();
   return (
     <div className="h-screen">
