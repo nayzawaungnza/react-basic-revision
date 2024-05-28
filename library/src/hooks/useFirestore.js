@@ -8,39 +8,50 @@ import {
   query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { db } from "../firebase";
 
 export default function useFirestore() {
   //get collection
-  let getCollection = (collectionName) => {
+  let getCollection = (collectionName, _q) => {
+    let qRef = useRef(_q).current; //useRef is solve infinity loop because (-q is array), that is infinity loop in effect
     let [error, setError] = useState("");
     let [loading, setLoading] = useState(false);
     let [data, setData] = useState([]);
 
-    useEffect(function () {
-      setLoading(true);
-      let ref = collection(db, collectionName);
-      let order = query(ref, orderBy("date", "desc"));
-
-      //real time firebase
-      onSnapshot(order, (docs) => {
-        if (docs.empty) {
-          setError("No Fetching Data");
-          setLoading(false);
-        } else {
-          let collectionData = [];
-          docs.forEach((doc) => {
-            let document = { id: doc.id, ...doc.data() };
-            collectionData.push(document);
-          });
-          setData(collectionData);
-          setLoading(false);
-          setError("");
+    useEffect(
+      function () {
+        console.log(qRef);
+        setLoading(true);
+        let ref = collection(db, collectionName);
+        let queries = [];
+        if (qRef) {
+          queries.push(where(...qRef));
         }
-      });
-    }, []);
+        queries.push(orderBy("date", "desc"));
+        let order = query(ref, ...queries);
+
+        //real time firebase
+        onSnapshot(order, (docs) => {
+          if (docs.empty) {
+            setError("No Fetching Data");
+            setLoading(false);
+          } else {
+            let collectionData = [];
+            docs.forEach((doc) => {
+              let document = { id: doc.id, ...doc.data() };
+              collectionData.push(document);
+            });
+            setData(collectionData);
+            setLoading(false);
+            setError("");
+          }
+        });
+      },
+      [qRef]
+    );
     return { error, loading, data };
   };
   //add collection

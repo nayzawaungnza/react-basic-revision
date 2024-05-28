@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
-import { doc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 import useFirestore from "../hooks/useFirestore";
+import { AuthContext } from "../contexts/AuthContext";
 
 export default function Create() {
   let { id } = useParams();
@@ -15,6 +16,7 @@ export default function Create() {
   let [isEdit, setIsEdit] = useState(false);
 
   let { addCollection, updateDocument } = useFirestore();
+  let { user } = useContext(AuthContext);
 
   let navigate = useNavigate();
   useEffect(() => {
@@ -54,6 +56,7 @@ export default function Create() {
       title: title,
       description: description,
       categories: categories,
+      uid: user.uid,
     };
     //firebase
     if (isEdit) {

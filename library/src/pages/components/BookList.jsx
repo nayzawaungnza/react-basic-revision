@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import bookimage from "../../assets/surja-sen-das-raj.jpg";
 import { Link, useLocation } from "react-router-dom";
 import useTheme from "../../hooks/useTheme";
@@ -6,15 +6,20 @@ import useTheme from "../../hooks/useTheme";
 import deleteImg from "../../assets/delete.svg";
 import editImg from "../../assets/edit.svg";
 import useFirestore from "../../hooks/useFirestore";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export default function BookList() {
   let location = useLocation();
   let params = new URLSearchParams(location.search);
   let search = params.get("search");
-
+  let { user } = useContext(AuthContext);
   //get collection
   let { getCollection, deleteDocument } = useFirestore();
-  let { error, loading, data: books } = getCollection("books");
+  let {
+    error,
+    loading,
+    data: books,
+  } = getCollection("books", ["uid", "==", user.uid]);
 
   let deleteBook = async (e, id) => {
     e.preventDefault();
