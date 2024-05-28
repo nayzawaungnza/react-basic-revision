@@ -9,7 +9,6 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 export default function Navbar() {
   let [search, setSearch] = useState();
   let { user } = useContext(AuthContext);
-  console.log("user is :", user);
   let navigate = useNavigate();
 
   let { theme, isDark, changeTheme } = useTheme();
