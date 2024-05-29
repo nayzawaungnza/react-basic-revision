@@ -52,6 +52,7 @@ export default function NoteList() {
                 type="update"
                 editNote={note.body}
                 setEditNote={setEditNote}
+                editNoteId={note.id}
               />
             )}
             <div className="flex justify-between items-center">
