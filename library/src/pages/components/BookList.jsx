@@ -1,5 +1,4 @@
 import React, { useContext } from "react";
-import bookimage from "../../assets/surja-sen-das-raj.jpg";
 import { Link, useLocation } from "react-router-dom";
 import useTheme from "../../hooks/useTheme";
 
