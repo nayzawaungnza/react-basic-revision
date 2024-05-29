@@ -2,9 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import useTheme from "../hooks/useTheme";
 import { doc, getDoc } from "firebase/firestore";
-import { db } from "../firebase";
+import { db, storage } from "../firebase";
 import useFirestore from "../hooks/useFirestore";
 import { AuthContext } from "../contexts/AuthContext";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 export default function Create() {
   let { id } = useParams();
@@ -52,13 +53,24 @@ export default function Create() {
     setCategories((prev) => [newCategory, ...prev]);
     setNewCategory("");
   };
+  let uploadFileToFirestorage = async (file) => {
+    let uniqueFileName = Date.now().toString() + "_" + file.name;
+    let path = "/covers/" + user.uid + "/" + uniqueFileName;
+    let storageRef = ref(storage, path);
+    // let resImage = await uploadBytes(storageRef, file);
+    await uploadBytes(storageRef, file);
+    return await getDownloadURL(storageRef); //return url
+  };
   let submitForm = async (e) => {
     e.preventDefault();
+    let url = await uploadFileToFirestorage(file);
+    console.log(url);
     let book = {
       title: title,
       description: description,
       categories: categories,
       uid: user.uid,
+      cover: url,
     };
     //firebase
     if (isEdit) {

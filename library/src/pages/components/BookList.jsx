@@ -42,7 +42,7 @@ export default function BookList() {
               }`}
               key={book.id}
             >
-              <img src={bookimage} alt="" />
+              <img src={book.cover} alt="" />
               <div className="text-center space-y-2 mt-3">
                 <h1 className={`${isDark ? "text-white" : ""}`}>
                   {book.title}

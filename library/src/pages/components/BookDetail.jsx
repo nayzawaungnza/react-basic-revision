@@ -25,7 +25,7 @@ export default function BookDetail() {
         <div className="grid grid-cols-2 rounded-lg text-surface shadow-secondary-1 dark:bg-surface-dark dark:text-white ">
           <img
             className="h-96 w-full rounded-t-lg object-cover md:h-auto md:w-48 md:!rounded-none md:!rounded-s-lg"
-            src={bookimage}
+            src={book.cover}
             alt=""
           />
 
