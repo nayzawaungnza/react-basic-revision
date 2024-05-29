@@ -23,7 +23,7 @@ export default function useFirestore() {
 
     useEffect(
       function () {
-        console.log(qRef);
+        //console.log(qRef);
         setLoading(true);
         let ref = collection(db, collectionName);
         let queries = [];

@@ -22,7 +22,6 @@ export default function BookList() {
 
   let deleteBook = async (e, id) => {
     e.preventDefault();
-    console.log("Book ID : ", id);
     await deleteDocument("books", id);
   };
   if (error) {

@@ -3,24 +3,30 @@ import useFirestore from "../../hooks/useFirestore";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useParams } from "react-router-dom";
 import moment from "moment";
-
+import deleteImage from "../../assets/delete.svg";
 export default function NoteList() {
   let { user } = useContext(AuthContext);
   let { id } = useParams();
-  let { getCollection } = useFirestore();
+  let { getCollection, deleteDocument } = useFirestore();
   let {
     error,
     loading,
     data: notes,
   } = getCollection("notes", ["bookUid", "==", id]);
-  console.log(notes);
+  let deleteNote = async (e, id) => {
+    e.preventDefault();
+    await deleteDocument("notes", id);
+  };
   return (
     <>
       {!!error && <p>{error}</p>}
       {!!loading && <p>loading...</p>}
       {!!notes &&
         notes.map((note) => (
-          <div className="max-w-md mx-auto border px-6 py-4 rounded-lg">
+          <div
+            key={note.id}
+            className="max-w-md mx-auto border px-6 py-4 rounded-lg"
+          >
             <div className="flex items-center mb-6">
               <img
                 src="https://randomuser.me/api/portraits/men/97.jpg"
@@ -48,9 +54,12 @@ export default function NoteList() {
                 <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
                   <i className="far fa-flag"></i> Report
                 </a>
-                <a href="#" className="text-gray-500 hover:text-gray-700">
-                  <i className="far fa-share-square"></i> Share
-                </a>
+                <div
+                  onClick={(e) => deleteNote(e, note.id)}
+                  className="text-gray-500 cursor-pointer hover:text-gray-700"
+                >
+                  <img src={deleteImage} />
+                </div>
               </div>
             </div>
           </div>
