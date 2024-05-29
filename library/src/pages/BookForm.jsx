@@ -14,6 +14,8 @@ export default function Create() {
   let [newCategory, setNewCategory] = useState([]);
   let [categories, setCategories] = useState([]);
   let [isEdit, setIsEdit] = useState(false);
+  let [file, setFile] = useState(null);
+  let [preview, setPreview] = useState("");
 
   let { addCollection, updateDocument } = useFirestore();
   let { user } = useContext(AuthContext);
@@ -67,6 +69,22 @@ export default function Create() {
 
     navigate("/");
   };
+  let handlePhotoChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+  let handlePreviewImage = (file) => {
+    let reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      setPreview(reader.result);
+    };
+  };
+
+  useEffect(() => {
+    if (file) {
+      handlePreviewImage(file);
+    }
+  }, [file]);
 
   let { isDark } = useTheme();
   return (
@@ -148,6 +166,21 @@ export default function Create() {
                   />
                 </svg>
               </button>
+            </div>
+            <div>
+              <label
+                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                htmlFor="bookImage"
+              >
+                Book Image
+              </label>
+              <input
+                className="block w-full mb-5 text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+                id="bookImage"
+                type="file"
+                onChange={handlePhotoChange}
+              />
+              {!!preview && <img src={preview} width={200} height={200} />}
             </div>
             <div className=" flex flex-wrap justify-start ">
               {categories.map((genre) => (
