@@ -1,13 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import useFirestore from "../../hooks/useFirestore";
 import { AuthContext } from "../../contexts/AuthContext";
 import { useParams } from "react-router-dom";
 import moment from "moment";
 import deleteImage from "../../assets/delete.svg";
+import editImage from "../../assets/edit.svg";
+import NoteForm from "./NoteForm";
 export default function NoteList() {
   let { user } = useContext(AuthContext);
   let { id } = useParams();
   let { getCollection, deleteDocument } = useFirestore();
+  let [editNote, setEditNote] = useState();
   let {
     error,
     loading,
@@ -17,6 +20,7 @@ export default function NoteList() {
     e.preventDefault();
     await deleteDocument("notes", id);
   };
+
   return (
     <>
       {!!error && <p>{error}</p>}
@@ -40,7 +44,16 @@ export default function NoteList() {
                 </div>
               </div>
             </div>
-            <p className="text-lg leading-relaxed mb-6">{note.body}</p>
+            {editNote?.id !== note.id && (
+              <p className="text-lg leading-relaxed mb-6">{note.body}</p>
+            )}
+            {editNote?.id === note.id && (
+              <NoteForm
+                type="update"
+                editNote={note.body}
+                setEditNote={setEditNote}
+              />
+            )}
             <div className="flex justify-between items-center">
               <div>
                 <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
@@ -51,9 +64,12 @@ export default function NoteList() {
                 </a>
               </div>
               <div className="flex items-center">
-                <a href="#" className="text-gray-500 hover:text-gray-700 mr-4">
-                  <i className="far fa-flag"></i> Report
-                </a>
+                <div
+                  onClick={() => setEditNote(note)}
+                  className="text-gray-500 hover:text-gray-700 mr-4"
+                >
+                  <img className="cursor-pointer " src={editImage} />
+                </div>
                 <div
                   onClick={(e) => deleteNote(e, note.id)}
                   className="text-gray-500 cursor-pointer hover:text-gray-700"
