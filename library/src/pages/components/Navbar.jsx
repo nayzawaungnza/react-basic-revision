@@ -29,7 +29,7 @@ export default function Navbar() {
         isDark ? "bg-dbg border-primary" : "bg-white"
       }`}
     >
-      <ul className="flex justify-between items-center p-3 max-w-6xl mx-auto">
+      <ul className="flex justify-between space-x-1 items-center p-3 max-w-6xl mx-auto">
         <li className="flex items-center gap-3">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -58,6 +58,20 @@ export default function Navbar() {
             className=" text-white bg-primary px-3 py-1 rounded-2xl flex items-center gap-1"
           >
             <span className="hidden md:block">Search</span>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="w-6 h-6 block sm:hidden"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+              />
+            </svg>
           </button>
         </li>
         <Link
@@ -106,7 +120,7 @@ export default function Navbar() {
               />
             </svg>
 
-            <span className="hidden md:block">Create book</span>
+            <span className="hidden md:block text-sm">Create book</span>
           </Link>
           {/* profile image */}
           <div className="w-11">

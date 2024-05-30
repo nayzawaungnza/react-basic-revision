@@ -22,7 +22,7 @@ export default function Layouts() {
       {/* dynamic router changes content */}
       <SwitchTransition>
         <CSSTransition timeout={200} classNames="fade" key={location.pathname}>
-          <div className=" max-w-6xl mx-auto p-3">
+          <div className="md:max-w-6xl max-w-full  mx-auto p-3">
             <Outlet />
           </div>
         </CSSTransition>
