@@ -6,23 +6,52 @@ import deleteImg from "../../assets/delete.svg";
 import editImg from "../../assets/edit.svg";
 import useFirestore from "../../hooks/useFirestore";
 import { AuthContext } from "../../contexts/AuthContext";
+import { storage } from "../../firebase";
+import { deleteObject, ref } from "firebase/storage";
 
 export default function BookList() {
+  //get collection
+  let { getCollection, deleteDocument } = useFirestore();
   let location = useLocation();
   let params = new URLSearchParams(location.search);
   let search = params.get("search");
   let { user } = useContext(AuthContext);
-  //get collection
-  let { getCollection, deleteDocument } = useFirestore();
+
   let {
     error,
     loading,
     data: books,
   } = getCollection("books", ["uid", "==", user.uid]);
 
-  let deleteBook = async (e, id) => {
+  let deleteBook = async (e, id, cover) => {
     e.preventDefault();
-    await deleteDocument("books", id);
+
+    // Extract file path from the cover URL
+
+    const pathStartIndex = cover.indexOf("/o/") + 3;
+    const pathEndIndex = cover.indexOf("?");
+    const filePath = decodeURIComponent(
+      cover.substring(pathStartIndex, pathEndIndex)
+    );
+
+    // Delete the image from Firebase Storage
+    const imageRef = ref(storage, filePath);
+
+    try {
+      await deleteObject(imageRef);
+      console.log("Image deleted successfully");
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      return;
+    }
+
+    // Delete the Firestore document
+    try {
+      await deleteDocument("books", id);
+      console.log("Book deleted successfully");
+    } catch (error) {
+      console.error("Error deleting book:", error);
+    }
   };
   if (error) {
     return <p>{error}</p>;
@@ -68,7 +97,7 @@ export default function BookList() {
                     </Link>
                     <img
                       src={deleteImg}
-                      onClick={(e) => deleteBook(e, book.id)}
+                      onClick={(e) => deleteBook(e, book.id, book.cover)}
                     />
                   </div>
                 </div>

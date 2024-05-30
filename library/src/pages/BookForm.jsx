@@ -30,10 +30,11 @@ export default function Create() {
       getDoc(ref).then((doc) => {
         if (doc.exists()) {
           //console.log(doc.data());
-          let { title, description, categories } = doc.data();
+          let { title, description, categories, cover } = doc.data();
           setTitle(title);
           setDescription(description);
           setCategories(categories);
+          setPreview(cover);
         }
       });
     } else {
@@ -41,6 +42,7 @@ export default function Create() {
       setTitle("");
       setDescription("");
       setCategories([]);
+      setPreview("");
     }
   }, []);
 
@@ -63,7 +65,13 @@ export default function Create() {
   };
   let submitForm = async (e) => {
     e.preventDefault();
-    let url = await uploadFileToFirestorage(file);
+    let url;
+    if (file) {
+      url = await uploadFileToFirestorage(file);
+    } else {
+      url = preview;
+    }
+
     console.log(url);
     let book = {
       title: title,
@@ -74,6 +82,7 @@ export default function Create() {
     };
     //firebase
     if (isEdit) {
+      console.log(book.cover);
       await updateDocument("books", id, book);
     } else {
       await addCollection("books", book);
@@ -179,6 +188,17 @@ export default function Create() {
                 </svg>
               </button>
             </div>
+            <div className=" flex flex-wrap justify-start ">
+              {categories.map((genre) => (
+                <span
+                  className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500"
+                  key={genre}
+                >
+                  {" "}
+                  {genre}
+                </span>
+              ))}
+            </div>
             <div>
               <label
                 className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
@@ -193,17 +213,6 @@ export default function Create() {
                 onChange={handlePhotoChange}
               />
               {!!preview && <img src={preview} width={200} height={200} />}
-            </div>
-            <div className=" flex flex-wrap justify-start ">
-              {categories.map((genre) => (
-                <span
-                  className="mx-1 my-1 text-white rounded-full px-2 py-1 text-sm bg-blue-500"
-                  key={genre}
-                >
-                  {" "}
-                  {genre}
-                </span>
-              ))}
             </div>
           </div>
         </div>
