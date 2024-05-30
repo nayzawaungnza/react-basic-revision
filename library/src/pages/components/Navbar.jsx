@@ -5,6 +5,7 @@ import darkIcon from "../../assets/dark.svg";
 import lightIcon from "../../assets/light.svg";
 import useSignout from "../../hooks/useSignout";
 import { AuthContext } from "../../contexts/AuthContext.jsx";
+import libraryLogo from "../../assets/library.png";
 
 export default function Navbar() {
   let [search, setSearch] = useState();
@@ -81,7 +82,7 @@ export default function Navbar() {
           </svg>
 
           <span className="text-2xl font-bold text-primary hidden md:block">
-            Book Store
+            MyLibrary
           </span>
         </Link>
         <li className="flex gap-3 items-center">
@@ -109,11 +110,7 @@ export default function Navbar() {
           </Link>
           {/* profile image */}
           <div className="w-11">
-            <img
-              src="https://d27v83ov1up738.cloudfront.net/user-profiles/eL9eWlO5afvl2V6A3l6j0GbrKHDp84jtZvyBcBV2.jpg"
-              alt=""
-              className="w-full rounded-full"
-            />
+            <img src={libraryLogo} alt="" className="w-full rounded-full" />
           </div>
           <div className="cursor-pointer">
             {isDark && (
