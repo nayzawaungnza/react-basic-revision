@@ -16,12 +16,18 @@ export default function BookList() {
   let params = new URLSearchParams(location.search);
   let search = params.get("search");
   let { user } = useContext(AuthContext);
+  if (search) {
+    search = {
+      field: "title",
+      value: search,
+    };
+  }
 
   let {
     error,
     loading,
     data: books,
-  } = getCollection("books", ["uid", "==", user.uid]);
+  } = getCollection("books", ["uid", "==", user.uid], search);
 
   let deleteBook = async (e, id, cover) => {
     e.preventDefault();
@@ -91,7 +97,7 @@ export default function BookList() {
                         </span>
                       ))}
                   </div>
-                  <div className="flex space-x-2 items-center">
+                  <div className="flex space-x-2 items-center cursor-pointer">
                     <Link to={`edit/${book.id}`}>
                       <img src={editImg} />
                     </Link>

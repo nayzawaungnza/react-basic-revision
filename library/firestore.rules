@@ -19,5 +19,7 @@ service cloud.firestore {
     match/notes /{document=**} {
       allow read, write;
     }
+
+    
   }
 }

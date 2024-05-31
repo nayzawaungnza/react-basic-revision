@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import useTheme from "../../hooks/useTheme";
 import darkIcon from "../../assets/dark.svg";
@@ -8,6 +8,8 @@ import { AuthContext } from "../../contexts/AuthContext.jsx";
 import libraryLogo from "../../assets/library.png";
 
 export default function Navbar() {
+  let params = new URLSearchParams(location.search);
+  let searchValue = params.get("search");
   let [search, setSearch] = useState();
   let { user } = useContext(AuthContext);
   let navigate = useNavigate();
@@ -17,8 +19,18 @@ export default function Navbar() {
 
   let handleSearch = (e) => {
     e.preventDefault();
+
     navigate("/?search=" + search);
   };
+
+  useEffect(() => {
+    if (!searchValue) {
+      console.log(!!searchValue);
+      setSearch("");
+      // navigate("/");
+    }
+  }, [searchValue]);
+
   let signoutUser = async () => {
     await logout();
     navigate("/login");

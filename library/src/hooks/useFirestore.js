@@ -15,7 +15,7 @@ import { db } from "../firebase";
 
 export default function useFirestore() {
   //get collection
-  let getCollection = (collectionName, _q) => {
+  let getCollection = (collectionName, _q, search) => {
     let qRef = useRef(_q).current; //useRef is solve infinity loop because (-q is array), that is infinity loop in effect
     let [error, setError] = useState("");
     let [loading, setLoading] = useState(false);
@@ -45,13 +45,21 @@ export default function useFirestore() {
               let document = { id: doc.id, ...doc.data() };
               collectionData.push(document);
             });
-            setData(collectionData);
+            if (search?.field && search?.value) {
+              let searchData = collectionData.filter((doc) => {
+                return doc[search?.field].includes(search?.value);
+              });
+              setData(searchData);
+            } else {
+              setData(collectionData);
+            }
+
             setLoading(false);
             setError("");
           }
         });
       },
-      [qRef]
+      [qRef, search?.field, search?.value]
     );
     return { error, loading, data };
   };
